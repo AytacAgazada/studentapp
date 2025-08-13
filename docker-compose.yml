@@ -1,0 +1,31 @@
+version: '3.8' # Docker Compose faylının versiyasını göstərir.
+
+services: # Konteyner xidmətlərinin təyin olunduğu əsas hissə.
+
+  zookeeper: # İlk xidmətimiz - Kafka-nın metadata vəziyyətini idarə edən Zookeeper.
+    image: confluentinc/cp-zookeeper:7.5.3 # İstifadə olunacaq Docker imicini göstərir.
+    container_name: zookeeper # Konteynerə verilən ad.
+    hostname: zookeeper # Konteyner daxilində şəbəkədə tanınması üçün host adı.
+    ports: # Host və konteyner portları arasındakı əlaqəni yaradır.
+      - "2181:2181" # Hostun 2181 portunu konteynerin 2181 portuna yönləndirir.
+    environment: # Konteyner daxilində mühit dəyişənlərini təyin edir.
+      ZOOKEEPER_CLIENT_PORT: 2181 # Zookeeperin müştəri əlaqələrini qəbul etdiyi port.
+      ZOOKEEPER_TICK_TIME: 2000 # Zookeeperin vaxt aşımı üçün əsas vahid.
+
+  broker: # İkinci xidmətimiz - Kafka brokeri.
+    image: confluentinc/cp-kafka:7.5.3 # İstifadə olunacaq Kafka Docker imicini göstərir.
+    container_name: broker # Konteynerə verilən ad.
+    hostname: broker # Konteyner daxilində şəbəkədə tanınması üçün host adı.
+    ports: # Host və konteyner portları arasındakı əlaqəni yaradır.
+      - "9092:9092" # Hostun 9092 portunu konteynerin 9092 portuna yönləndirir.
+    environment: # Konteyner daxilində mühit dəyişənlərini təyin edir.
+      KAFKA_BROKER_ID: 1 # Klaster daxilində hər broker üçün unikal identifikasiya nömrəsi.
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181' # Kafka-nın qoşulacağı Zookeeper ünvanını bildirir.
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT # Kafka dinləyicilərinin (listeners) təhlükəsizlik protokollarını müəyyən edir.
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092 # Kafka-nın müştərilərə öz ünvanını necə reklam etdiyini göstərir. İlk hissə Docker daxili, ikinci hissə Docker xarici (host maşını) üçün.
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1 # Offsetlərin saxlandığı mövzunun replikasiya sayını təyin edir. Tək broker üçün 1 olmalıdır.
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0 # Yeni qrupa qoşulanda rebalans gecikməsini təyin edir.
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1 # Tranzaksiya logları üçün minimum replika sayını təyin edir. Tək broker üçün 1 olmalıdır.
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1 # Tranzaksiya logları üçün replikasiya sayını təyin edir. Tək broker üçün 1 olmalıdır.
+    depends_on: # Bu xidmətin işə düşməzdən əvvəl hansı xidmətlərin gözlənilməli olduğunu göstərir.
+      - zookeeper # Kafka brokeri Zookeeper işə düşdükdən sonra başlayacaq.

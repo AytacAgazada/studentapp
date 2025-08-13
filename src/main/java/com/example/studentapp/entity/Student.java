@@ -20,8 +20,8 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String firstname;
-    String lastname;
+    String firstName;  // ✅ camelCase
+    String lastName;   // ✅ camelCase
     int age;
     String email;
 

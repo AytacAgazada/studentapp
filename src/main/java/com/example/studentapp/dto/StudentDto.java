@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 public class StudentDto {
 
     private Long id;
-    private String firstname;
-    private String lastname;
+    private String firstName;  // ✅ camelCase
+    private String lastName;   // ✅ camelCase
     private int age;
     private String email;
 }
