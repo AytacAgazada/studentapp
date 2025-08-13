@@ -13,8 +13,33 @@ import org.springframework.stereotype.Service;
 public class StudentKafkaConsumer {
     private final EmailService emailService;
 
-    @KafkaListener(topics = "${kafka.topic.student-created}", groupId = "student-created-group")
+    @KafkaListener(topics = "${kafka.topic.student-updated}",groupId = "student-updated-group")
+    public void lislistenStudentCreated(StudentDto studentDto){
+        log.info("Received student updated event: {}",studentDto);
+
+        String subject = "Welcome to Student App";
+        String body = "Helllo "+studentDto.getFirstName();
+        emailService.sendEmail(studentDto.getEmail(),subject,body);
+        log.info("Email sent to {}",studentDto.getEmail());
+    }
+
+    @KafkaListener(topics = "student-created-topic", groupId = "student-group1")
     public void listenStudentCreated(ConsumerRecord<String, StudentDto> record) {
+        int partition = record.partition();
+        long offset = record.offset();
+
+        log.info("Group-1 Received record Kafka for partition {} offset {}", partition, offset);
+
+        String subject = "Informational message";
+        String body = " Sincerely " + record.value().getFirstName() + " " + record.value().getLastName() + " your registration is complete ";
+
+        emailService.sendEmail(record.value().getEmail(), subject, body);
+        log.info("Group-1 Email sent successfully {}", record.value().getEmail());
+
+    }
+
+    @KafkaListener(topics = "${kafka.topic.student-created}", groupId = "student-created-group-2")
+    public void listenStudentCreatedGroup2(ConsumerRecord<String, StudentDto> record) {
         log.info("Received student created event: {}",record.value());
 
         int partition = record.partition();
