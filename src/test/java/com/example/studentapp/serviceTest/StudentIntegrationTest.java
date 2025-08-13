@@ -56,14 +56,14 @@ public class StudentIntegrationTest {
         StudentDto createdStudent = studentService.createStudent(newStudent);
 
         Assertions.assertThat(createdStudent.getId()).isNotNull();
-        Assertions.assertThat(createdStudent.getFirstname()).isEqualTo("Memmed");
-        Assertions.assertThat(createdStudent.getLastname()).isEqualTo("Memmedov");
+        Assertions.assertThat(createdStudent.getFirstName()).isEqualTo("Memmed");
+        Assertions.assertThat(createdStudent.getLastName()).isEqualTo("Memmedov");
         Assertions.assertThat(createdStudent.getEmail()).isEqualTo("ma@mail.com");
 
         Optional<Student> db = repo.findById(createdStudent.getId());
 
         Assertions.assertThat(db).isPresent();
-        Assertions.assertThat(db.get().getFirstname()).isEqualTo("Memmed");
+        Assertions.assertThat(db.get().getFirstName()).isEqualTo("Memmed");
 
 
     }
@@ -76,8 +76,8 @@ public class StudentIntegrationTest {
         List<StudentDto> result = studentService.getAllStudents();
 
         Assertions.assertThat(result).hasSize(2);
-        Assertions.assertThat(result).extracting(student -> student.getFirstname())
-                .containsExactly(testStudent.getFirstname(),testStudent2.getFirstname());
+        Assertions.assertThat(result).extracting(student -> student.getFirstName())
+                .containsExactly(testStudent.getFirstName(),testStudent2.getFirstName());
     }
 
 
@@ -88,8 +88,8 @@ public class StudentIntegrationTest {
         StudentDto result = studentService.getStudentById(testStudent.getId());
 
         Assertions.assertThat(result).isNotNull();
-        Assertions.assertThat(result.getFirstname()).isEqualTo(testStudent.getFirstname());
-        Assertions.assertThat(result.getLastname()).isEqualTo(testStudent.getLastname());
+        Assertions.assertThat(result.getFirstName()).isEqualTo(testStudent.getFirstName());
+        Assertions.assertThat(result.getFirstName()).isEqualTo(testStudent.getFirstName());
         Assertions.assertThat(result.getAge()).isEqualTo(testStudent.getAge());
         Assertions.assertThat(result.getEmail()).isEqualTo(testStudent.getEmail());
 

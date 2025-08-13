@@ -87,8 +87,8 @@ public class StudentControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$",hasSize(2)))
-                .andExpect(jsonPath("$[0].firstName").value(testStudent.getFirstname()))
-                .andExpect(jsonPath("$[1].firstName").value(testStudent2.getFirstname()));
+                .andExpect(jsonPath("$[0].firstName").value(testStudent.getFirstName()))
+                .andExpect(jsonPath("$[1].firstName").value(testStudent2.getFirstName()));
     }
 
 
@@ -97,7 +97,7 @@ public class StudentControllerIntegrationTest {
         mockMvc.perform(get("/api/students/{id}", testStudent.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.firstName").value(testStudent.getFirstname()));
+                .andExpect(jsonPath("$.firstName").value(testStudent.getFirstName()));
     }
 
 

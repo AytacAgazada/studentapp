@@ -38,8 +38,8 @@ public class StudentServiceTest {
         StudentDto inputDto = new StudentDto(null,"Orxan","Alizade",24,"a@mail.com");
 
         Student savedStudent = new Student();
-        savedStudent.setFirstname(inputDto.getFirstname());
-        savedStudent.setLastname(inputDto.getLastname());
+        savedStudent.setFirstName(inputDto.getFirstName());
+        savedStudent.setLastName(inputDto.getLastName());
         savedStudent.setAge(inputDto.getAge());
         savedStudent.setEmail(inputDto.getEmail());
 
@@ -48,8 +48,8 @@ public class StudentServiceTest {
         StudentDto outputDto = studentService.createStudent(inputDto);
 
         assertNotNull(outputDto);
-        assertEquals(savedStudent.getFirstname(),outputDto.getFirstname());
-        assertEquals(savedStudent.getLastname(),outputDto.getLastname());
+        assertEquals(savedStudent.getFirstName(),outputDto.getFirstName());
+        assertEquals(savedStudent.getLastName(),outputDto.getLastName());
         assertEquals(savedStudent.getAge(),outputDto.getAge());
         assertEquals(savedStudent.getEmail(),outputDto.getEmail());
 
@@ -60,8 +60,8 @@ public class StudentServiceTest {
     public void testGetStudentById(){
         Student student = new Student();
         student.setId(1L);
-        student.setFirstname("Orxan");
-        student.setLastname("Alizade");
+        student.setFirstName("Orxan");
+        student.setLastName("Alizade");
         student.setAge(24);
         student.setEmail("<a@mail.com>");
 
@@ -71,8 +71,8 @@ public class StudentServiceTest {
 
         assertNotNull(outputDto);
         assertEquals(student.getId(),outputDto.getId());
-        assertEquals(student.getFirstname(),outputDto.getFirstname());
-        assertEquals(student.getLastname(),outputDto.getLastname());
+        assertEquals(student.getFirstName(),outputDto.getFirstName());
+        assertEquals(student.getLastName(),outputDto.getLastName());
         assertEquals(student.getAge(),outputDto.getAge());
         assertEquals(student.getEmail(),outputDto.getEmail());
 
@@ -88,8 +88,8 @@ public class StudentServiceTest {
         List<StudentDto> outputDtos = studentService.getAllStudents();
 
         assertEquals(1L,outputDtos.get(0).getId());
-        assertEquals("Orxan", outputDtos.get(0).getFirstname());
-        assertEquals("Alizade", outputDtos.get(0).getLastname());
+        assertEquals("Orxan", outputDtos.get(0).getFirstName());
+        assertEquals("Alizade", outputDtos.get(0).getLastName());
         assertEquals(24, outputDtos.get(0).getAge());
         assertEquals("orxan@mail.com", outputDtos.get(0).getEmail());
     }
@@ -154,8 +154,8 @@ public class StudentServiceTest {
         StudentDto result = studentService.updateStudent(id, newData);
 
         assertNotNull(result);
-        assertEquals("Senan", result.getFirstname());
-        assertEquals("Veliyev", result.getLastname());
+        assertEquals("Senan", result.getFirstName());
+        assertEquals("Veliyev", result.getLastName());
         assertEquals(22, result.getAge());
         assertEquals("b@mail.com", result.getEmail());
 
