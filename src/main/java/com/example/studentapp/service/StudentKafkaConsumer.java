@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class StudentKafkaConsumer {
     private final EmailService emailService;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @KafkaListener(topics = "${kafka.topic.student-created}", groupId = "student-group")
     public void lislistenStudentCreated(StudentDto studentDto){
@@ -26,6 +28,8 @@ public class StudentKafkaConsumer {
         } else {
             log.warn("Group 'student-group' üçün email göndərilmədi. Tələbənin email adresi yoxdur. Tələbənin məlumatları: {}", studentDto);
         }
+
+//        messagingTemplate.convertAndSendToUser("/topic/students/updates", studentDto);
     }
 
     @KafkaListener(topics = "${kafka.topic.student-created}", groupId = "student-group1")
@@ -45,6 +49,8 @@ public class StudentKafkaConsumer {
         } else {
             log.warn("Group 'student-group1' üçün email göndərilmədi. Tələbənin email adresi yoxdur. Record: {}", record);
         }
+
+
     }
 
     @KafkaListener(topics = "${kafka.topic.student-created}", groupId = "student-created-group-2")
